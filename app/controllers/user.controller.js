@@ -39,7 +39,10 @@ exports.findAllUsers = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete({
+            _id: req.params.id,
+            role: "user"
+        });
         if (!user) {
             return res.status(404).json({message: "User not found"});
         }
@@ -47,4 +50,23 @@ exports.deleteUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({message: "Could not delete user"});
     }
-};
+}
+
+exports.createTrainer = async (req, res) => {
+    try {
+        const { specialty, experience, contactNumber } = req.body;
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id, 
+            { 
+                role: 'trainer', 
+                specialty, 
+                experience, 
+                contactNumber 
+            },
+            { new: true }
+        )
+        res.status(200).json({message: "User promoted to Trainer", updatedUser});
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}

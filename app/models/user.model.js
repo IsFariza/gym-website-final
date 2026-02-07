@@ -29,11 +29,20 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
-      default: 'user',
+      enum: ["user", "admin", "trainer"],
+      default: "user",
     },
+    specialty: { 
+      type: String 
+    },
+    experience: { 
+      type: String 
+    },
+    contactNumber: { 
+      type: String 
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);
