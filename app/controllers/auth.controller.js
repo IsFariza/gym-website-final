@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const config = require('../config/auth.config');
 
 exports.register = async (req, res) => {
@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
         const { username, email, password, gender, phoneNumber, role } = req.body;
         
         if (gender !== 'female') {
-            return res.status(400).json({message: "Registration restricted to female users only"});
+            return res.status(400).json({message: "Only female users may register"});
         }
 
         const hashedPwd = await bcrypt.hash(password, 10);
@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
         });
 
         await user.save();
-        res.status(201).json({ message: "User registration successful!"});
+        res.status(201).json({ message: "User registration successful!", user});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -35,8 +35,9 @@ exports.login = async (req, res) => {
             return res.status(404).json({message: "User not found"});
 
         const passwordIsValid = await bcrypt.compare(req.body.password, user.password);
+        
         if (!passwordIsValid) 
-            return res.status(401).json({message: "Invalid password" });
+            return res.status(401).json({message: "Invalid password"});
 
         const token = jwt.sign(
             { 
