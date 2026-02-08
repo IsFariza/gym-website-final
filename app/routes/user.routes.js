@@ -1,5 +1,5 @@
-const { verifyToken } = require("../middlewares/authJwt");
-const { isAdmin } = require("../middlewares/verifyRole");
+const { verifyToken } = require("../middleware/authJwt");
+const { isAdmin } = require("../middleware/verifyRole");
 const authController = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller"); 
 const { registerValidation } = require("../middleware/validate");
