@@ -1,4 +1,6 @@
-const Trainer = require("../models/user.model");
+const Trainer = require("../models/user.model")
+const mongoose = require("mongoose");
+const Workout = require("../models/workout.model")
 
 exports.getAllTrainers = async (req, res) => {
     try {
@@ -71,3 +73,18 @@ exports.deleteTrainer = async (req, res) => {
     }
 };
 
+exports.getTrainerWorkouts = async (req, res) => {
+    try {
+        const workouts = await Workout.find({ 
+            trainer: new mongoose.Types.ObjectId(req.user)
+        }).populate("exercises").lean()
+
+        if (!workouts || workouts.length === 0) {
+            return res.status(404).json({ message: "No workouts found for this trainer"})
+        }
+
+        res.status(200).json(workouts);
+    } catch (err) {
+        res.status(500).json({ message: "Error retrieving workouts: " + err.message});
+    }
+}
