@@ -5,9 +5,9 @@ const registerValidation = (req, res, next) => {
         username: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
-        gender: Joi.string().valid('female').required(),
+        gender: Joi.string().valid("female").required(),
         phoneNumber: Joi.string().optional(),
-        role: Joi.string().valid('user', 'admin').optional()
+        role: Joi.string().valid("user", "admin", "trainer").optional()
     });
 
     const {error} = schema.validate(req.body);

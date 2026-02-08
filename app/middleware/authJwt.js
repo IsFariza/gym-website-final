@@ -2,10 +2,11 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config');
 
 const verifyToken = (req, res, next) => {
-    let token = req.headers['authorization'];
+    let token = req.headers["authorization"];
     if (!token) 
         return res.status(403).json({message: 'No token'});
-
+    if (token.startsWith("Bearer "))
+        token = token.split(" ")[1]
 
     try {
         const decoded = jwt.verify(token, config.secret);
