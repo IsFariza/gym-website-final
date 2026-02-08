@@ -24,7 +24,7 @@ exports.updateUserProfile = async (req, res) => {
 
         res.status(200).json({ message: "Profile updated successfull", updatedUser });
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ message: "Update failed: " + err.message });
     }
 };
 
@@ -39,10 +39,7 @@ exports.findAllUsers = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete({
-            _id: req.params.id,
-            role: "user"
-        });
+        const user = await User.findByIdAndDelete(req.params.id);
         if (!user) {
             return res.status(404).json({message: "User not found"});
         }
