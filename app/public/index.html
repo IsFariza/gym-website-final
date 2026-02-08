@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinkPower | Your Ideal Gym 💖</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Добавляем стили для единой шапки, если они еще не в styles.css */
+        :root {
+            --primary-pink: #ff4f9a;
+            --dark-pink: #c71585;
+            --nav-height: 80px;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 15px rgba(255, 79, 154, 0.15);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-pink); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--dark-pink); }
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary-pink); }
+
+        .btn-small { 
+            background: var(--primary-pink); 
+            color: white !important; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+        }
+
+        body { padding-top: var(--nav-height); }
+    </style>
+</head>
+<body>
+
+<header class="header-main">
+    <div class="logo">PINK<span>POWER</span> 💗</div>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="workouts.html">Workouts</a>
+        <a href="exercises.html">Library</a>
+        <a href="prices.html">Pricing</a>
+        <a href="contact.html">Contacts</a> 
+        <a id="dynamicLink" href="login.html" class="btn-small">Join Now</a>
+    </nav>
+</header>
+
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>POWER IN <br><span>YOU</span></h1>
+        <p>The first fitness club in Astana exclusively for women. Create your dream body in an atmosphere of comfort and aesthetics.</p>
+        <div class="hero-btns">
+            <a href="register.html" class="btn">Join Now</a>
+            <a href="#prices" class="btn-outline">Our Memberships</a>
+        </div>
+    </div>
+</section>
+
+<section class="section pink-bg">
+    <div class="container">
+        <h2 class="section-title">Why <span>Choose Us?</span></h2>
+        <div class="features-grid">
+            
+            <div class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <span class="icon">🌸</span>
+                </div>
+                <h3>Only for Girls</h3>
+                <p>No unnecessary stares. Only you, your goals, and a comfortable atmosphere where everyone feels at home.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <span class="icon">🧘‍♀️</span>
+                </div>
+                <h3>Top Equipment</h3>
+                <p>Modern machines with biomechanics specifically selected for the characteristics of women's training.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <span class="icon">💖</span>
+                </div>
+                <h3>Glow Up Zone</h3>
+                <p>Stylish locker rooms, aesthetic fitness bar, and special zones with perfect lighting for your ideal selfies.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="team" class="section pink-bg">
+    <div class="container">
+        <h2 class="section-title">OUR TEAM</h2>
+        <p class="subtitle">Professionals who will lead you to results</p>
+        <div id="indexTrainersList" class="trainers-grid">
+            <p class="loading">Loading our star team...</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <h2>READY TO START YOUR TRANSFORMATION?</h2>
+    <p>Sign up for a free guest workout today!</p>
+    <a href="register.html" class="btn">I WANT TO JOIN</a>
+</section>
+
+<section id="prices" class="section pink-bg">
+    <h2 class="section-title">MEMBERSHIPS</h2>
+    <div class="pricing-grid">
+        <div class="price-card">
+            <h3>LIGHT</h3>
+            <div class="price">15,000 ₸</div>
+            <ul>
+                <li>8 visits per month</li>
+                <li>Gym access</li>
+                <li>Group classes</li>
+            </ul>
+            <a href="register.html" class="btn">Buy Now</a>
+        </div>
+        <div class="price-card featured">
+            <div class="badge">Most Popular</div>
+            <h3>PREMIUM</h3>
+            <div class="price">25,000 ₸</div>
+            <ul>
+                <li>Unlimited 1 month</li>
+                <li>Personal trainer</li>
+                <li>Sauna access</li>
+            </ul>
+            <a href="register.html" class="btn">Buy Now</a>
+        </div>
+        <div class="price-card">
+            <h3>YEAR PASS</h3>
+            <div class="price">120,000 ₸</div>
+            <ul>
+                <li>12 months unlimited</li>
+                <li>30 days freeze option</li>
+                <li>Guest visits</li>
+            </ul>
+            <a href="register.html" class="btn">Buy Now</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>© 2026 PinkPower Gym. All rights reserved 💗</p>
+    </div>
+</footer>
+
+<script>
+    // Умная проверка авторизации и ролей
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+        const dynamicLink = document.getElementById('dynamicLink');
+
+        if (token) {
+            // Если токен есть, пытаемся понять, кто залогинился
+            // Обычно роль можно достать из localStorage, если ты ее туда сохраняешь при логине
+            const userRole = localStorage.getItem('userRole'); // Предположим, ты сохраняешь роль
+
+            if (userRole === 'admin') {
+                dynamicLink.innerText = 'Admin Panel';
+                dynamicLink.href = 'admin.html';
+            } else if (userRole === 'trainer') {
+                dynamicLink.innerText = 'Coach Board';
+                dynamicLink.href = 'trainer.html';
+            } else {
+                dynamicLink.innerText = 'My Profile';
+                dynamicLink.href = 'profile.html';
+            }
+        } else {
+            dynamicLink.innerText = 'Join Now';
+            dynamicLink.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workouts | PinkPower</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4f9a;
+            --soft-pink: #ffb6c1;
+            --dark-pink: #c71585;
+            --bg-color: #fff0f5;
+            --nav-height: 80px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-top: var(--nav-height);
+        }
+
+        /* --- UNIFIED HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 15px rgba(255, 79, 154, 0.15);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-pink); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--dark-pink); }
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-pink); }
+
+        .btn-small { 
+            background: var(--primary-pink); 
+            color: white !important; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+        }
+
+        /* --- WORKOUTS GRID --- */
+        .section { padding: 60px 20px; text-align: center; }
+        .section-title { font-size: 2.5rem; font-weight: 900; color: var(--dark-pink); margin-bottom: 50px; text-transform: uppercase; }
+        .section-title span { color: var(--primary-pink); }
+
+        .workouts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .workout-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            text-align: left;
+            border: 1px solid transparent;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--soft-pink);
+            box-shadow: 0 15px 40px rgba(255, 79, 154, 0.15);
+        }
+
+        .workout-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-color);
+            color: var(--dark-pink);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .workout-badge.advanced {
+            background: var(--dark-pink);
+            color: white;
+        }
+
+        .workout-content { padding: 30px; }
+        .workout-content h3 { color: var(--dark-pink); margin-top: 0; font-size: 1.4rem; }
+        .workout-content p { color: #666; font-size: 0.95rem; line-height: 1.6; min-height: 60px; margin-bottom: 20px; }
+
+        .workout-footer {
+            display: flex;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--bg-color);
+        }
+
+        .duration { 
+            color: var(--primary-pink); 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header-main">
+    <div class="logo">PINK<span>POWER</span> 💗</div>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="workouts.html">Workouts</a>
+        <a href="exercises.html">Library</a>
+        <a href="prices.html">Pricing</a>
+        <a href="contact.html">Contacts</a> 
+        <a id="dynamicLink" href="login.html" class="btn-small">Join Now</a>
+    </nav>
+</header>
+
+<main class="content-wrapper">
+    <section class="section">
+        <h2 class="section-title">TRAINING <span>PROGRAMS</span></h2>
+        
+        <div class="workouts-grid">
+            <div class="workout-card">
+                <div class="workout-badge">Beginner</div>
+                <div class="workout-content">
+                    <h3>LEG DAY 💥</h3>
+                    <p>Intensive lower body workout designed to sculpt your legs and glutes while improving muscle tone.</p>
+                    <div class="workout-footer">
+                        <span class="duration">⏱ 45 min session</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-badge">Intermediate</div>
+                <div class="workout-content">
+                    <h3>UPPER BODY 💪</h3>
+                    <p>Focus on arms, shoulders, and back. Perfect for improving posture and creating beautiful definition.</p>
+                    <div class="workout-footer">
+                        <span class="duration">⏱ 50 min session</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-badge advanced">Advanced</div>
+                <div class="workout-content">
+                    <h3>FULL BODY 🔥</h3>
+                    <p>High-intensity metabolic conditioning. Work every muscle group for maximum calorie burn.</p>
+                    <div class="workout-footer">
+                        <span class="duration">⏱ 60 min session</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+        const dynamicLink = document.getElementById('dynamicLink');
+        const userRole = localStorage.getItem('userRole');
+
+        if (token) {
+            if (userRole === 'admin') {
+                dynamicLink.innerText = 'Admin Panel';
+                dynamicLink.href = 'admin.html';
+            } else if (userRole === 'trainer') {
+                dynamicLink.innerText = 'Coach Board';
+                dynamicLink.href = 'trainer.html';
+            } else {
+                dynamicLink.innerText = 'My Profile';
+                dynamicLink.href = 'profile.html';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coach Board | PinkPower</title>
+    <style>
+        :root { 
+            --primary-pink: #ff4f9a; 
+            --soft-pink: #ffb6c1; 
+            --dark-pink: #c71585; 
+            --bg-color: #fff0f5; 
+            --nav-height: 80px; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg-color); 
+            margin: 0; 
+            padding-top: var(--nav-height); 
+        }
+        
+        header { 
+            position: fixed; top: 0; width: 100%; height: var(--nav-height); 
+            background: white; display: flex; justify-content: space-between; 
+            align-items: center; padding: 0 50px; box-sizing: border-box; 
+            box-shadow: 0 2px 15px rgba(255, 79, 154, 0.15); z-index: 1000; 
+        }
+        
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-pink); text-transform: uppercase; }
+        .logo span { color: var(--dark-pink); }
+        
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { text-decoration: none; color: #555; font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--primary-pink); }
+        
+        .btn-logout { 
+            background: var(--primary-pink); color: white !important; 
+            padding: 8px 20px; border-radius: 20px; border: none; cursor: pointer;
+        }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        
+        /* Stats Section */
+        .stats-bar { 
+            display: flex; gap: 20px; margin-bottom: 30px; 
+        }
+        .stat-card { 
+            background: white; padding: 20px; border-radius: 20px; 
+            flex: 1; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-pink);
+        }
+        .stat-card h4 { margin: 0; color: #888; font-size: 0.8rem; text-transform: uppercase; }
+        .stat-card p { margin: 5px 0 0; font-size: 1.8rem; font-weight: bold; color: var(--dark-pink); }
+
+        .workout-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; 
+        }
+        
+        .workout-card { 
+            background: white; border-radius: 20px; padding: 25px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid var(--soft-pink); 
+            transition: 0.3s; display: flex; flex-direction: column;
+        }
+        .workout-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(255, 79, 154, 0.2); }
+        
+        .tag { 
+            align-self: flex-start; background: var(--bg-color); color: var(--dark-pink); 
+            padding: 5px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; 
+        }
+        
+        .empty-state { text-align: center; padding: 50px; color: #888; grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">PINK<span>POWER</span> 💗</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="workouts.html">Workouts</a>
+        <a href="exercises.html">Library</a>
+        <a href="prices.html">Pricing</a>
+        <a href="contact.html">Contacts</a> 
+        <a href="trainer.html" class="active">Coach Board</a>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="stats-bar">
+        <div class="stat-card">
+            <h4>My Programs</h4>
+            <p id="countWorkouts">0</p>
+        </div>
+        <div class="stat-card">
+            <h4>Status</h4>
+            <p style="font-size: 1.2rem; margin-top: 12px;">Active Coach ✨</p>
+        </div>
+    </div>
+
+    <h2 style="color: var(--dark-pink); margin-bottom: 25px;">Assigned Workouts</h2>
+    
+    <div id="trainerWorkouts" class="workout-grid">
+        <div class="empty-state">Loading your personalized plan...</div>
+    </div>
+</div>
+
+<script>
+    const API_BASE = "http://localhost:3000/api";
+
+    function logout() { 
+        localStorage.clear(); 
+        window.location.href = "login.html"; 
+    }
+
+    async function loadWorkouts() {
+        const token = localStorage.getItem("token") || localStorage.getItem("accessToken");
+        const container = document.getElementById('trainerWorkouts');
+        const countDisplay = document.getElementById('countWorkouts');
+
+        if (!token) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        try {
+            // Fetch profile and workouts concurrently
+            const [profileRes, workoutsRes] = await Promise.all([
+                fetch(`${API_BASE}/users/profile`, { headers: { "Authorization": `Bearer ${token}` } }),
+                fetch(`${API_BASE}/exercises`, { headers: { "Authorization": `Bearer ${token}` } })
+            ]);
+
+            const profile = await profileRes.json();
+            const workouts = await workoutsRes.json();
+            
+            // Filter workouts where this coach is assigned
+            const myWorkouts = workouts.filter(w => w.trainerId === profile._id);
+            
+            countDisplay.innerText = myWorkouts.length;
+
+            if (myWorkouts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>No workouts assigned to you yet, Coach ${profile.username}.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = myWorkouts.map(w => `
+                <div class="workout-card">
+                    <span class="tag">${w.muscleGroup || 'General'}</span>
+                    <h3 style="color:var(--primary-pink); margin: 15px 0 10px;">${w.name}</h3>
+                    <p style="color:#666; font-size:0.9rem; flex-grow: 1;">${w.description || 'No description provided.'}</p>
+                    <div style="margin-top: 20px; font-size: 0.8rem; color: #aaa;">
+                        ID: ${w._id.substring(0, 8)}...
+                    </div>
+                </div>
+            `).join('');
+
+        } catch (e) { 
+            console.error(e);
+            container.innerHTML = `<div class="empty-state" style="color: red;">Failed to load data. Please check if the server is running.</div>`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadWorkouts);
+</script>
+</body>
+</html>
