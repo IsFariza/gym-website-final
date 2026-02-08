@@ -101,25 +101,24 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    // Сохраняем данные для работы всего сайта
                     localStorage.setItem("token", data.accessToken);
                     localStorage.setItem("username", data.username);
-                    localStorage.setItem("userRole", data.role); // Важно: ключ userRole
+                    localStorage.setItem("userRole", data.role);
 
-                    // Умный редирект в зависимости от роли
+                    // Редирект без лишних папок /app/public/
                     if (data.role === 'admin') {
                         window.location.href = "admin.html";
                     } else if (data.role === 'trainer') {
-                        window.location.href = "trainer.html";
+                        window.location.href = "trainers.html"; 
                     } else {
                         window.location.href = "profile.html";
                     }
                 } else {
-                    alert(data.message || "Login failed. Please check your credentials.");
+                    alert(data.message || "Login failed.");
                 }
             } catch (err) { 
                 console.error(err);
-                alert("Server on port 3000 is not responding. Make sure your backend is running!"); 
+                alert("Server is not responding. Check if backend is running on port 3000!"); 
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Login 💖";
