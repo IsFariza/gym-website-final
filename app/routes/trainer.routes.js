@@ -1,6 +1,6 @@
 const trainerController = require("../controllers/trainer.controller");
-const { verifyToken } = require("../middlewares/authJwt");
-const { isAdmin } = require("../middlewares/verifyRole");
+const { verifyToken } = require("../middleware/authJwt");
+const { isAdmin } = require("../middleware/verifyRole");
 
 module.exports = function(app) {
     app.get("/api/trainers", trainerController.getAllTrainers);
