@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/auth.config');
+const emailService = require("../services/email.service")
 
 exports.register = async (req, res) => {
     try {
@@ -22,6 +23,7 @@ exports.register = async (req, res) => {
         });
 
         await user.save();
+        await emailService.sendWelcomeEmail(user.email, user.username)
         res.status(201).json({ message: "User registration successful!", user});
     } catch (err) {
         res.status(500).json({ message: err.message });
