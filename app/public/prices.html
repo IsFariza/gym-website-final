@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memberships | PinkPower</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4f9a;
+            --soft-pink: #ffb6c1;
+            --dark-pink: #c71585;
+            --bg-color: #fff0f5;
+            --nav-height: 80px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-top: var(--nav-height);
+        }
+
+        /* --- UNIFIED HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 15px rgba(255, 79, 154, 0.15);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-pink); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--dark-pink); }
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-pink); }
+
+        .btn-small { 
+            background: var(--primary-pink); 
+            color: white !important; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+        }
+
+        /* --- PRICING STYLES --- */
+        .pricing-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--dark-pink);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--soft-pink);
+        }
+
+        .card-top h3 {
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--dark-pink);
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--bg-color);
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: var(--dark-pink);
+        }
+    </style>
+</head>
+<body>
+
+<header class="header-main">
+    <div class="logo">PINK<span>POWER</span> 💗</div>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="workouts.html">Workouts</a>
+        <a href="exercises.html">Library</a>
+        <a href="prices.html">Pricing</a>
+        <a href="contact.html">Contacts</a> 
+        <a id="dynamicLink" href="login.html" class="btn-small">Join Now</a>
+    </nav>
+</header>
+
+<main class="content-wrapper">
+    <section class="pricing-section">
+        <h2 class="section-title">Our <span>Memberships</span></h2>
+        
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="card-top">
+                    <h3>BASIC</h3>
+                    <div class="price-value">30,000 ₸</div>
+                </div>
+                <ul class="features-list">
+                    <li>🌸 Group Fitness Classes</li>
+                    <li>🌸 Gym Access (Morning)</li>
+                    <li>🌸 Locker & Shower Access</li>
+                </ul>
+                <button class="btn">Choose Plan</button>
+            </div>
+
+            <div class="price-card" style="border-color: var(--soft-pink); background: #fffbff;">
+                <div class="card-top">
+                    <h3 style="color: var(--dark-pink)">PERSONAL</h3>
+                    <div class="price-value">60,000 ₸</div>
+                </div>
+                <ul class="features-list">
+                    <li>💖 Personal Trainer</li>
+                    <li>💖 Individual Training Plan</li>
+                    <li>💖 Nutrition Program</li>
+                </ul>
+                <button class="btn" style="background: var(--dark-pink)">Choose Plan</button>
+            </div>
+
+            <div class="price-card">
+                <div class="card-top">
+                    <h3>PREMIUM</h3>
+                    <div class="price-value">90,000 ₸</div>
+                </div>
+                <ul class="features-list">
+                    <li>💎 24/7 All-Inclusive Access</li>
+                    <li>💎 Massage & SPA Zone</li>
+                    <li>💎 Free Guest Pass</li>
+                </ul>
+                <button class="btn">Choose Plan</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    // Умная логика для навигации
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+        const dynamicLink = document.getElementById('dynamicLink');
+        const userRole = localStorage.getItem('userRole');
+
+        if (token) {
+            if (userRole === 'admin') {
+                dynamicLink.innerText = 'Admin Panel';
+                dynamicLink.href = 'admin.html';
+            } else if (userRole === 'trainer') {
+                dynamicLink.innerText = 'Coach Board';
+                dynamicLink.href = 'trainer.html';
+            } else {
+                dynamicLink.innerText = 'My Profile';
+                dynamicLink.href = 'profile.html';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

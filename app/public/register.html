@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Us | PinkPower</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-pink: #ff4f9a;
+            --dark-pink: #c71585;
+            --bg-color: #fff0f5;
+        }
+
+        .auth-body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(255, 79, 154, 0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h2 { color: var(--dark-pink); margin-bottom: 25px; font-weight: 900; }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid var(--bg-color);
+            border-radius: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus { border-color: var(--primary-pink); }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover { background: var(--dark-pink); transform: translateY(-2px); }
+
+        p { color: #666; margin-top: 20px; font-size: 0.9rem; }
+        p a { color: var(--primary-pink); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body class="auth-body">
+    <div class="auth-box">
+        <h2>Create Account 💖</h2>
+        <form id="registerForm">
+            <input type="text" id="username" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="password" id="password" placeholder="Password (min. 6 symbols)" required>
+            <input type="text" id="phone" placeholder="Phone Number (e.g. +7...)">
+            
+            <label style="display:block; text-align:left; font-size:0.8rem; color:#888; margin: 0 0 5px 10px;">Gender</label>
+            <select id="gender" required>
+                <option value="female" selected>Female (Only Girls Policy 🌸)</option>
+            </select>
+
+            <label style="display:block; text-align:left; font-size:0.8rem; color:#888; margin: 0 0 5px 10px;">I want to...</label>
+            <select id="role">
+                <option value="user">Start Training</option>
+                <option value="trainer">Join as a Coach</option>
+            </select>
+
+            <button type="submit" id="regBtn">Join PinkPower 💗</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Log in here</a></p>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:3000/api"; 
+
+        document.getElementById("registerForm").addEventListener("submit", async e => {
+            e.preventDefault();
+            
+            const regBtn = document.getElementById('regBtn');
+            regBtn.disabled = true;
+            regBtn.innerText = "Processing... ✨";
+            
+            const body = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phoneNumber: document.getElementById('phone').value,
+                gender: document.getElementById('gender').value,
+                role: document.getElementById('role').value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert("Registration successful! Welcome to the club 🌸");
+                    window.location.href = "login.html";
+                } else {
+                    alert(`Error: ${data.message || 'Something went wrong. Please try again.'}`);
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                alert("Server is not responding. Please check your backend connection.");
+            } finally {
+                regBtn.disabled = false;
+                regBtn.innerText = "Join PinkPower 💗";
+            }
+        });
+    </script>
+</body>
+</html>

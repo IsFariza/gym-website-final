@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | PinkPower</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-pink: #ff4f9a;
+            --soft-pink: #ffb6c1;
+            --dark-pink: #c71585;
+            --bg-color: #fff0f5;
+            --nav-height: 80px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-top: var(--nav-height);
+        }
+
+        /* --- UNIFIED HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 15px rgba(255, 79, 154, 0.15);
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary-pink); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--dark-pink); }
+
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+        nav a:hover, nav a.active { color: var(--primary-pink); }
+
+        .btn-small { 
+            background: var(--primary-pink); 
+            color: white !important; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+        }
+
+        /* --- CONTACT CONTENT --- */
+        .section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--dark-pink);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .contact-card {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid var(--soft-pink);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .contact-item span {
+            font-size: 1.5rem;
+        }
+
+        .map-placeholder {
+            margin-top: 30px;
+            width: 100%;
+            height: 200px;
+            background: #eee;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">PINK<span>POWER</span> 💗</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="exercises.html">Library</a>
+        <a href="contacts.html" class="active">Contacts</a>
+        <a id="dynamicLink" href="login.html" class="btn-small">Join Now</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+
+    <div class="contact-card">
+        <div class="contact-item">
+            <span>📍</span> 
+            <div>123 Abay Ave, Almaty, Kazakhstan</div>
+        </div>
+        <div class="contact-item">
+            <span>📞</span> 
+            <div>+7 777 123 45 67</div>
+        </div>
+        <div class="contact-item">
+            <span>📧</span> 
+            <div>info@pinkpower.kz</div>
+        </div>
+        <div class="contact-item">
+            <span>⏰</span> 
+            <div>Mon-Sun: 07:00 - 23:00</div>
+        </div>
+
+        <div class="map-placeholder">
+            Google Map integration coming soon...
+        </div>
+    </div>
+</section>
+
+<script>
+    // Unified Auth Logic for the Header
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
+        const dynamicLink = document.getElementById('dynamicLink');
+        const userRole = localStorage.getItem('userRole');
+
+        if (token) {
+            if (userRole === 'admin') {
+                dynamicLink.innerText = 'Admin Panel';
+                dynamicLink.href = 'admin.html';
+            } else if (userRole === 'trainer') {
+                dynamicLink.innerText = 'Coach Board';
+                dynamicLink.href = 'trainer.html';
+            } else {
+                dynamicLink.innerText = 'My Profile';
+                dynamicLink.href = 'profile.html';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
