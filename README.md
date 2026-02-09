@@ -105,27 +105,8 @@ No frontend frameworks were used.
 
 ## Project Structure
 
-public/
-│
-├── js/                  # JavaScript files
-│   ├── auth.js          # User authentication
-│   ├── index.js         # Main page script
-│   ├── profile.js       # Profile page script
-│   ├── exercises.js     # Exercises page script
-│   └── trainers.js      # Trainers page script
-│
-├── admin.html           # Admin page
-├── contact.html         # Contact page
-├── exercises.html       # Exercises page
-├── index.html           # Home page
-├── login.html           # Login page
-├── prices.html          # Pricing page
-├── profile.html         # User profile page
-├── register.html        # Registration page
-├── trainers.html        # Trainers page
-├── workouts.html        # Workouts page
-│
-└── styles.css           # Main CSS file
+## Project Structure
+![Structure](./screenshots/srtuctur.png)
 
 
 Folder and File Description
@@ -234,8 +215,3 @@ A user can be promoted to `trainer` by an admin using backend endpoints.
 The frontend adjusts the interface based on the user role.
 
 ---
-
-## Conclusion
-
-The frontend is fully functional, user-friendly, and successfully integrated with the backend API.  
-It provides secure authentication, clear navigation, and a clean pink-themed design.

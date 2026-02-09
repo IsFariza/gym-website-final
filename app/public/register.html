@@ -84,12 +84,6 @@
                 <option value="female" selected>Female (Only Girls Policy 🌸)</option>
             </select>
 
-            <label style="display:block; text-align:left; font-size:0.8rem; color:#888; margin: 0 0 5px 10px;">I want to...</label>
-            <select id="role">
-                <option value="user">Start Training</option>
-                <option value="trainer">Join as a Coach</option>
-            </select>
-
             <button type="submit" id="regBtn">Join PinkPower 💗</button>
         </form>
         <p>Already have an account? <a href="login.html">Log in here</a></p>
@@ -111,7 +105,7 @@
                 password: document.getElementById('password').value,
                 phoneNumber: document.getElementById('phone').value,
                 gender: document.getElementById('gender').value,
-                role: document.getElementById('role').value
+                role: "user" 
             };
 
             try {
@@ -127,11 +121,11 @@
                     alert("Registration successful! Welcome to the club 🌸");
                     window.location.href = "login.html";
                 } else {
-                    alert(`Error: ${data.message || 'Something went wrong. Please try again.'}`);
+                    alert(`Error: ${data.message || 'Something went wrong.'}`);
                 }
             } catch (err) {
                 console.error("Error:", err);
-                alert("Server is not responding. Please check your backend connection.");
+                alert("Server error. Please check your Node.js backend.");
             } finally {
                 regBtn.disabled = false;
                 regBtn.innerText = "Join PinkPower 💗";

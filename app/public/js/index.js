@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const trainersContainer = document.getElementById('indexTrainersList');
 
     try {
-        // Берем тренеров с твоего эндпоинта /api/trainers
-        const res = await fetch("http://localhost:3000/api/trainers");
+        const res = await fetch("http://localhost:5000/api/trainers");
         const trainers = await res.json();
 
         if (res.ok && trainers.length > 0) {
