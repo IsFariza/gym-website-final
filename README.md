@@ -1,6 +1,18 @@
 # Pink Power Gym
 ## Project Overview
 Pink Power Gym is a specialized backend service for a female-only fitness community. It provides a secure environment for user registration, authentication via JWT, and administrative user management. This project also featured with the integration of SendGrid SMTP to provide automated email notifications upon successful registration.
+## Setup instruction
+### INstallation
+git clone <repo-url>
+npm install
+### .env
+Create .env file in the root with our secret keys
+PORT, MONGO_DB, JWT_SECRET_KEY, EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_FROM, EMAIL_TO,SENDGRID_API_KEY
+
+BACKEND_URL="https://pinkpower-gym-website.onrender.com"
+### Run the App
+npm run dev
+The server will be running on http://localhost:5000
 ## Tech Stack
 - Runtime: Node.js
 - Framework: Express.js
