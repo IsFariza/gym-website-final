@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/api/profile', {
+        const response = await fetch('http://localhost:3000/api/profile', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
