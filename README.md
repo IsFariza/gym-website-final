@@ -51,7 +51,7 @@ Standard users are blocked from accessing admin/trainer endpoints, ensuring data
 Administrative functionality allowing the update of user profiles. This uses a PATCH request for partial data modification, following RESTful best practices
 ![promote](./screenshots/promote-trainer.jpg)
 
-# PinkPower Frontend – Report
+# PinkPower Frontend 
 
 ## Project Description
 
@@ -107,25 +107,26 @@ No frontend frameworks were used.
 
 public/
 │
-├── js/
-│   ├── auth.js
-│   ├── index.js
-│   ├── profile.js
-│   ├── exercises.js
-│   └── trainers.js
+├── js/                  # JavaScript files
+│   ├── auth.js          # User authentication
+│   ├── index.js         # Main page script
+│   ├── profile.js       # Profile page script
+│   ├── exercises.js     # Exercises page script
+│   └── trainers.js      # Trainers page script
 │
-├── admin.html
-├── contact.html
-├── exercises.html
-├── index.html
-├── login.html
-├── prices.html
-├── profile.html
-├── register.html
-├── trainers.html
-├── workouts.html
+├── admin.html           # Admin page
+├── contact.html         # Contact page
+├── exercises.html       # Exercises page
+├── index.html           # Home page
+├── login.html           # Login page
+├── prices.html          # Pricing page
+├── profile.html         # User profile page
+├── register.html        # Registration page
+├── trainers.html        # Trainers page
+├── workouts.html        # Workouts page
 │
-└── styles.css
+└── styles.css           # Main CSS file
+
 
 Folder and File Description
 /js folder
