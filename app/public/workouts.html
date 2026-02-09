@@ -35,7 +35,7 @@
 <div class="grid" id="grid"></div>
 
 <script>
-    const API = "http://localhost:3000/api";
+    const API = window.location.origin + "/api";
     const token = localStorage.getItem("token");
     let nameMap = {}; 
 
