@@ -106,7 +106,7 @@ No frontend frameworks were used.
 ## Project Structure
 
 ## Project Structure
-![Structure](./srtuctur/exer.png)
+![Structure](./screenshots/srtuctur.png)
 
 
 Folder and File Description
