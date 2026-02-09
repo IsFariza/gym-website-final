@@ -17,6 +17,7 @@
         .delete-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ffcad4; cursor: pointer; font-size: 20px; }
         .ex-row { background: #fff9fb; border: 1px dashed #ffcad4; padding: 12px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .ex-name { font-weight: 800; color: #444; font-size: 0.9rem; }
+        .coach-tag { background: #fff0f5; color: var(--dark-pink); font-size: 10px; padding: 5px 10px; border-radius: 10px; font-weight: 900; text-transform: uppercase; border: 1px solid #ffcad4; }
     </style>
 </head>
 <body>
@@ -39,55 +40,80 @@
     let nameMap = {}; 
 
     async function render() {
-        if (!token) return;
+        if (!token) {
+            document.getElementById("grid").innerHTML = "<h2 style='text-align:center; width:100%; color:#888;'>Please login to see your workouts</h2>";
+            return;
+        }
 
         try {
+            // 1. Загружаем все упражнения для словаря имен
             const exRes = await fetch(API + "/exercises");
             const allEx = await exRes.json();
             allEx.forEach(e => { nameMap[String(e._id)] = e.name; });
 
-            const res = await fetch(API + "/workouts", { headers: { "Authorization": "Bearer " + token }});
+            // 2. Загружаем тренировки
+            const res = await fetch(API + "/workouts", { 
+                headers: { "Authorization": "Bearer " + token }
+            });
             const workouts = await res.json();
 
             const grid = document.getElementById("grid");
-            grid.innerHTML = workouts.map(set => `
+            grid.innerHTML = workouts.map(set => {
+                // Если в бэкенде есть данные тренера (populate), выводим имя, иначе - ID
+                const coachInfo = set.trainer?.username || "Personal Program";
+                
+                return `
                 <div class="set-card">
                     <button class="delete-btn" onclick="delSet('${set._id}')">×</button>
-                    <h2 style="margin:0 0 15px 0; color:var(--dark); font-size:1.1rem; text-transform:uppercase;">${set.title}</h2>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <span class="coach-tag">Coach: ${coachInfo}</span>
+                    </div>
+
+                    <h2 style="margin:0 0 15px 0; color:var(--dark); font-size:1.1rem; text-transform:uppercase; letter-spacing:1px;">${set.title}</h2>
+                    
                     <div>
                         ${(set.exercises || []).map(item => {
+                            // Находим ID упражнения в любом формате
                             const id = typeof item === 'string' ? item : (item.exerciseId?._id || item.exerciseId || item);
-                            const name = nameMap[String(id)] || "Unknown Exercise";
+                            const name = nameMap[String(id)] || "Workout Exercise";
                             return `
                                 <div class="ex-row">
                                     <span class="ex-name">💪 ${name}</span>
-                                    <span style="color:var(--pink); font-weight:900; font-size:12px;">ACTIVE</span>
+                                    <span style="color:var(--pink); font-weight:900; font-size:10px;">READY</span>
                                 </div>
                             `;
                         }).join('')}
                     </div>
                 </div>
-            `).join('');
-        } catch (e) { console.log(e); }
+                `;
+            }).join('');
+        } catch (e) { 
+            console.error("Render Error:", e);
+        }
     }
 
     async function addSet() {
-        const title = prompt("Set Title:");
+        const title = prompt("Name your training set:");
         if(!title) return;
+        
         await fetch(API + "/workouts", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": "Bearer " + token 
+            },
             body: JSON.stringify({ 
                 title, 
-                description: "Personal Training", 
-                level: "beginner" 
+                description: "User defined workout set",
+                level: "beginner"
             })
         });
         render();
     }
 
     async function delSet(id) {
-        if(confirm("Delete this set?")) {
+        if(confirm("Are you sure?")) {
             await fetch(API + "/workouts/" + id, { 
                 method: "DELETE", 
                 headers: { "Authorization": "Bearer " + token } 
