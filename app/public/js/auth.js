@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api"; // Убедись, что на бэке в .env PORT=5000
+const API_BASE = "/api"; // Убедись, что на бэке в .env PORT=5000
 
 const authHelper = {
     saveAuth: (data) => {
