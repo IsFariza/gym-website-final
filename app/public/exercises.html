@@ -45,7 +45,9 @@
 </div>
 
 <script>
-    const API = "http://localhost:3000/api";
+    const API = window.location.origin.includes('localhost') 
+    ? "http://localhost:3000/api" 
+    : "/api";
     let selectedId = null;
 
     async function loadEx() {
@@ -80,7 +82,6 @@
         const workoutId = document.getElementById("workoutSelect").value;
         const token = localStorage.getItem("token");
 
-        // Твой бэкенд в Workout.js принимает только ID в массив exercises
         const res = await fetch(`${API}/workouts/${workoutId}/exercises`, {
             method: "PUT",
             headers: { 

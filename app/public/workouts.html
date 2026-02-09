@@ -46,12 +46,10 @@
         }
 
         try {
-            // 1. Загружаем все упражнения для словаря имен
             const exRes = await fetch(API + "/exercises");
             const allEx = await exRes.json();
             allEx.forEach(e => { nameMap[String(e._id)] = e.name; });
 
-            // 2. Загружаем тренировки
             const res = await fetch(API + "/workouts", { 
                 headers: { "Authorization": "Bearer " + token }
             });
@@ -59,7 +57,6 @@
 
             const grid = document.getElementById("grid");
             grid.innerHTML = workouts.map(set => {
-                // Если в бэкенде есть данные тренера (populate), выводим имя, иначе - ID
                 const coachInfo = set.trainer?.username || "Personal Program";
                 
                 return `
@@ -74,7 +71,6 @@
                     
                     <div>
                         ${(set.exercises || []).map(item => {
-                            // Находим ID упражнения в любом формате
                             const id = typeof item === 'string' ? item : (item.exerciseId?._id || item.exerciseId || item);
                             const name = nameMap[String(id)] || "Workout Exercise";
                             return `
