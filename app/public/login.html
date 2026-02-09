@@ -6,7 +6,6 @@
     <title>Login | PinkPower</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Добавим немного стилей для красоты, если их нет в styles.css */
         :root {
             --primary-pink: #ff4f9a;
             --dark-pink: #c71585;
@@ -105,7 +104,6 @@
                     localStorage.setItem("username", data.username);
                     localStorage.setItem("userRole", data.role);
 
-                    // Редирект без лишних папок /app/public/
                     if (data.role === 'admin') {
                         window.location.href = "admin.html";
                     } else if (data.role === 'trainer') {

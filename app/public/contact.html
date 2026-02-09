@@ -20,8 +20,6 @@
             margin: 0;
             padding-top: var(--nav-height);
         }
-
-        /* --- UNIFIED HEADER --- */
         header {
             position: fixed;
             top: 0;
@@ -50,8 +48,6 @@
             padding: 8px 20px; 
             border-radius: 20px; 
         }
-
-        /* --- CONTACT CONTENT --- */
         .section {
             padding: 60px 20px;
             text-align: center;
@@ -142,7 +138,6 @@
 </section>
 
 <script>
-    // Unified Auth Logic for the Header
     document.addEventListener("DOMContentLoaded", () => {
         const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
         const dynamicLink = document.getElementById('dynamicLink');

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Добавляем стили для единой шапки, если они еще не в styles.css */
         :root {
             --primary-pink: #ff4f9a;
             --dark-pink: #c71585;
@@ -164,22 +163,19 @@
 </footer>
 
 <script>
-    // Умная проверка авторизации и ролей
     document.addEventListener("DOMContentLoaded", () => {
         const token = localStorage.getItem('token') || localStorage.getItem('accessToken');
         const dynamicLink = document.getElementById('dynamicLink');
 
         if (token) {
-            // Если токен есть, пытаемся понять, кто залогинился
-            // Обычно роль можно достать из localStorage, если ты ее туда сохраняешь при логине
-            const userRole = localStorage.getItem('userRole'); // Предположим, ты сохраняешь роль
+            const userRole = localStorage.getItem('userRole'); 
 
             if (userRole === 'admin') {
                 dynamicLink.innerText = 'Admin Panel';
                 dynamicLink.href = 'admin.html';
             } else if (userRole === 'trainer') {
                 dynamicLink.innerText = 'Coach Board';
-                dynamicLink.href = 'trainer.html';
+                dynamicLink.href = 'trainers.html';
             } else {
                 dynamicLink.innerText = 'My Profile';
                 dynamicLink.href = 'profile.html';

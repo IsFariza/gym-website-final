@@ -5,108 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | PinkPower</title>
     <style>
-        :root {
-            --primary-pink: #ff4f9a;
-            --soft-pink: #ffb6c1;
-            --dark-pink: #c71585;
-            --bg-color: #fff0f5;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            color: #333;
-        }
-
-        /* Navigation */
-        nav {
-            background: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(255, 79, 154, 0.2);
-        }
-
-        .logo { 
-            font-weight: bold; 
-            color: var(--primary-pink); 
-            font-size: 1.5rem; 
-            text-transform: uppercase;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark-pink);
-            font-weight: bold;
-            margin-left: 20px;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1100px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        h2 { 
-            color: var(--dark-pink); 
-            border-bottom: 2px solid var(--soft-pink); 
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-
-        /* Table Styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-        }
-
-        th {
-            background-color: var(--primary-pink);
-            color: white;
-            text-align: left;
-            padding: 15px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.95rem;
-        }
-
-        tr:hover { background-color: #fff9fb; }
-
-        /* Role Badges */
-        .badge {
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-
+        :root { --primary-pink: #ff4f9a; --soft-pink: #ffb6c1; --dark-pink: #c71585; --bg-color: #fff0f5; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); margin: 0; color: #333; }
+        nav { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(255, 79, 154, 0.2); }
+        .logo { font-weight: bold; color: var(--primary-pink); font-size: 1.5rem; text-transform: uppercase; }
+        .nav-links a { text-decoration: none; color: var(--dark-pink); font-weight: bold; margin-left: 20px; }
+        .container { max-width: 1100px; margin: 50px auto; background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h2 { color: var(--dark-pink); border-bottom: 2px solid var(--soft-pink); padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+        th { background-color: var(--primary-pink); color: white; text-align: left; padding: 15px; text-transform: uppercase; font-size: 0.8rem; }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .badge { padding: 5px 12px; border-radius: 15px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; }
         .role-admin { background: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2; }
         .role-trainer { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
         .role-user { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
-
-        .error-message {
-            color: #d32f2f;
-            background: #ffebee;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+        .role-select { padding: 5px; border-radius: 8px; border: 1px solid var(--soft-pink); cursor: pointer; }
+        .error-message { color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 1px solid #ffcdd2; }
+        .success-message { color: #2e7d32; background: #e8f5e9; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 1px solid #c8e6c9; }
     </style>
 </head>
 <body>
@@ -116,100 +31,108 @@
     <div class="nav-links">
         <a href="index.html">Main Site</a>
         <a href="profile.html">My Profile</a>
+        <a href="#" onclick="localStorage.clear(); window.location.href='login.html'">Logout</a>
     </div>
 </nav>
 
 <div class="container">
     <h2>User Management System</h2>
-    <p style="color: #888;">Database records for all registered members.</p>
-
     <div id="statusArea"></div>
-
-    <table id="usersTable">
+    <table>
         <thead>
             <tr>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Phone Number</th>
-                <th>Role Status</th>
-                <th>Database ID</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>ID</th>
             </tr>
         </thead>
-        <tbody id="userList">
-            </tbody>
+        <tbody id="userList"></tbody>
     </table>
 </div>
 
 <script>
-    // ПРАВИЛЬНЫЙ URL ИЗ ТВОИХ РОУТОВ
-    const API_URL = "http://localhost:3000/api/admin/users"; 
+    const BASE_URL = "http://localhost:3000/api/admin/users";
 
-    async function fetchUsers() {
-        const userList = document.getElementById('userList');
-        const statusArea = document.getElementById('statusArea');
-        
-        // Получаем токен
-        const token = localStorage.getItem("token") || localStorage.getItem("accessToken");
+    function scrub(id) {
+        return String(id || "").replace(/[^a-z0-9]/gi, "").trim();
+    }
 
-        if (!token) {
-            statusArea.innerHTML = `<div class="error-message">Error: No token found. Please log in first.</div>`;
-            return;
-        }
+    function getToken() {
+        const t = localStorage.getItem("token") || localStorage.getItem("accessToken");
+        return t ? t.trim() : null;
+    }
+
+    async function updateUserRole(userId, newRole) {
+        const statusArea = document.getElementById("statusArea");
+        const token = getToken();
+        const cleanId = scrub(userId);
+        const finalUrl = BASE_URL + "/" + cleanId;
 
         try {
-            const response = await fetch(API_URL, {
-                method: "GET",
+            const response = await fetch(finalUrl, {
+                method: "PATCH", 
                 headers: {
-                    "Authorization": `Bearer ${token}`, // Твой verifyToken на бэкенде ждет это
+                    "Authorization": "Bearer " + token,
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify({ role: newRole })
             });
 
-            // Если ты не админ, сервер выдаст 403
-            if (response.status === 403) {
-                throw new Error("ACCESS DENIED: Your account does not have Admin privileges.");
-            }
+            const data = await response.json();
 
             if (!response.ok) {
-                throw new Error("Server Error: " + response.status);
+                throw new Error(data.message || "Access Denied");
             }
 
-            const users = await response.json();
-            userList.innerHTML = ""; 
+            statusArea.innerHTML = `<div class="success-message">Status updated! ✅</div>`;
+            setTimeout(() => { statusArea.innerHTML = ""; fetchUsers(); }, 2000);
 
-            if (users.length === 0) {
-                userList.innerHTML = `<tr><td colspan="5" style="text-align:center;">No users found in database.</td></tr>`;
-                return;
-            }
-
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                
-                // Стилизация ролей
-                let roleClass = 'role-user';
-                if (user.role === 'admin') roleClass = 'role-admin';
-                if (user.role === 'trainer') roleClass = 'role-trainer';
-
-                row.innerHTML = `
-                    <td><strong>${user.username}</strong></td>
-                    <td>${user.email}</td>
-                    <td>${user.phoneNumber || '—'}</td>
-                    <td><span class="badge ${roleClass}">${user.role || 'user'}</span></td>
-                    <td style="color: #999; font-family: monospace; font-size: 0.8rem;">${user._id}</td>
-                `;
-                userList.appendChild(row);
-            });
-
-        } catch (error) {
-            console.error("Fetch error:", error);
-            statusArea.innerHTML = `<div class="error-message">${error.message}</div>`;
-            userList.innerHTML = ""; 
+        } catch (err) {
+            statusArea.innerHTML = `<div class="error-message">${err.message}</div>`;
         }
     }
 
-    // Загрузка при старте
+    async function fetchUsers() {
+        const userList = document.getElementById("userList");
+        const token = getToken();
+
+        try {
+            const response = await fetch(BASE_URL, {
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            if (!response.ok) throw new Error("Access Denied");
+            
+            const users = await response.json();
+            userList.innerHTML = "";
+
+            users.forEach(user => {
+                const tr = document.createElement("tr");
+                const roleClass = user.role === "admin" ? "role-admin" : (user.role === "trainer" ? "role-trainer" : "role-user");
+                
+                tr.innerHTML = `
+                    <td><b>${user.username}</b></td>
+                    <td>${user.email}</td>
+                    <td><span class="badge ${roleClass}">${user.role}</span></td>
+                    <td>
+                        <select class="role-select" onchange="updateUserRole('${user._id}', this.value)">
+                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
+                            <option value="trainer" ${user.role === 'trainer' ? 'selected' : ''}>Trainer</option>
+                            ${user.role === 'admin' ? '<option value="admin" selected>Admin</option>' : ''}
+                        </select>
+                    </td>
+                    <td style="font-size: 10px; color: #999;">${user._id}</td>
+                `;
+                userList.appendChild(tr);
+            });
+        } catch (err) {
+            document.getElementById("statusArea").innerHTML = `<div class="error-message">${err.message}</div>`;
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", fetchUsers);
 </script>
-
 </body>
 </html>

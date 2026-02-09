@@ -2,145 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PinkPower | Training Library</title>
+    <title>PinkPower | Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --pink: #ff4f9a; --dark: #c71585; --bg: #fff0f5; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-top: 90px; }
-        header { position: fixed; top: 0; width: 100%; height: 80px; background: white; display: flex; 
-                 justify-content: space-between; align-items: center; padding: 0 50px; 
-                 box-shadow: 0 2px 15px rgba(255, 79, 154, 0.1); z-index: 1000; box-sizing: border-box; }
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--pink); text-transform: uppercase; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 20px; padding: 25px; position: relative; border: 1px solid #ffb6c1; 
-                display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; }
-        .add-btn { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; 
-                   background: var(--pink); color: white; border: none; border-radius: 50%; 
-                   font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .add-btn:disabled { background: #ccc; cursor: not-allowed; }
-        .tag { background: var(--bg); color: var(--dark); padding: 5px 12px; border-radius: 12px; 
-               font-size: 0.75rem; font-weight: bold; align-self: flex-start; margin-bottom: 10px; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); margin: 0; padding-top: 100px; }
+        header { position: fixed; top: 0; width: 100%; height: 80px; background: white; padding: 0 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(255, 79, 154, 0.1); z-index: 1000; box-sizing: border-box; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--pink); text-transform: uppercase; text-decoration: none; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px; }
+        .card { background: white; border-radius: 20px; padding: 25px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .add-btn { position: absolute; top: 15px; right: 15px; background: var(--pink); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold; }
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; padding: 30px; border-radius: 25px; width: 350px; text-align: center; }
+        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 12px; border: 1px solid #eee; }
+        .btn { background: var(--pink); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: 800; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">PINK<span>POWER</span> 💗</div>
-    <nav><a href="trainers.html" style="color: var(--pink); text-decoration: none; font-weight: bold;">Coach Board</a></nav>
+    <a href="workouts.html" class="logo">PINKPOWER 💗</a>
+    <nav class="nav-links">
+        <a href="exercises.html" style="color: var(--pink)">Library</a>
+        <a href="workouts.html">My Workouts</a>
+        <a href="profile.html">Profile</a>
+    </nav>
 </header>
 
-<div class="container">
-    <h2 style="color: var(--dark); margin-bottom: 25px;">Training Library ✨</h2>
-    <div id="exercise-list" class="grid">Loading...</div>
+<div class="grid" id="exerciseGrid"></div>
+
+<div id="modal">
+    <div class="modal-content">
+        <h3 style="color: var(--dark)">Add to Workout</h3>
+        <p style="font-size: 14px; color: #666;">Select a set to add this exercise</p>
+        <select id="workoutSelect"></select>
+        <button class="btn" id="confirmAdd">Add Now</button>
+        <button class="btn" style="background:#ccc;" onclick="closeModal()">Cancel</button>
+    </div>
 </div>
 
 <script>
-    const API_BASE = "http://localhost:3000/api";
+    const API = "http://localhost:3000/api";
+    let selectedId = null;
 
-    // ULTRA-SANITIZER: Removes EVERYTHING except basic letters and numbers
-    // This stops the "Pattern mismatch" error caused by hidden Postman newlines
-    const scrub = (val) => String(val || "").replace(/[^a-z0-9]/gi, "").trim();
-    
-    // Friendly name sanitizer for titles
-    const scrubName = (val) => String(val || "").replace(/[^a-z0-9\s]/gi, "").trim();
-
-    async function saveToCloud(exId, exName, muscle, btn) {
-        const token = localStorage.getItem('token')?.trim();
-        if (!token) return alert("Please log in first!");
-
-        // Clean the ID and Muscle Group
-        const cleanExerciseId = scrub(exId);
-        const rawMuscle = String(muscle || "General");
-        // Handle "Abs/Core" -> just take "Abs"
-        const category = scrubName(rawMuscle.split('/')[0].split(' ')[0]); 
-        const targetTitle = `${category} Workout`;
-
-        btn.disabled = true;
-        btn.innerHTML = "⏳";
-
-        try {
-            // 1. Get current workouts
-            const res = await fetch(`${API_BASE}/workouts`, {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            const workouts = await res.json();
-
-            const existing = Array.isArray(workouts) ? workouts.find(w => 
-                scrubName(w.title).toLowerCase().includes(category.toLowerCase())
-            ) : null;
-
-            let finalRes;
-
-            if (existing && existing._id) {
-                // UPDATE (PUT)
-                const workoutId = scrub(existing._id);
-                const currentIds = existing.exercises.map(e => scrub(typeof e === 'object' ? e._id : e));
-
-                if (currentIds.includes(cleanExerciseId)) {
-                    alert("Already in this set!");
-                    btn.innerHTML = "+"; btn.disabled = false; return;
-                }
-
-                finalRes = await fetch(`${API_BASE}/workouts/${workoutId}`, {
-                    method: "PUT",
-                    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        exercises: [...currentIds, cleanExerciseId],
-                        title: existing.title,
-                        level: "intermediate"
-                    })
-                });
-            } else {
-                // CREATE (POST)
-                finalRes = await fetch(`${API_BASE}/workouts`, {
-                    method: "POST",
-                    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        title: targetTitle, 
-                        level: "intermediate", 
-                        description: `Training session for ${category}`,
-                        exercises: [cleanExerciseId] 
-                    })
-                });
-            }
-
-            if (finalRes.ok) {
-                alert(`Added to ${targetTitle}! ✅`);
-            } else {
-                const errData = await finalRes.json();
-                alert("Server Error: " + (errData.message || "Validation failed"));
-            }
-        } catch (e) {
-            console.error("Fetch Error Detail:", e);
-            alert("Pattern Error: " + e.message + "\nTry refreshing the page.");
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = "+";
-        }
+    async function loadEx() {
+        const res = await fetch(API + "/exercises");
+        const data = await res.json();
+        document.getElementById("exerciseGrid").innerHTML = data.map(ex => `
+            <div class="card">
+                <button class="add-btn" onclick="openModal('${ex._id}')">+</button>
+                <h3 style="margin:0">${ex.name}</h3>
+                <p style="color:#888; font-size:13px; margin-top:5px;">${ex.muscleGroup || 'Full Body'}</p>
+            </div>
+        `).join('');
     }
 
-    async function loadExercises() {
-        const container = document.getElementById('exercise-list');
-        try {
-            const response = await fetch(`${API_BASE}/exercises`);
-            const data = await response.json();
-            
-            container.innerHTML = data.map(ex => `
-                <div class="card">
-                    <button class="add-btn" onclick="saveToCloud('${ex._id}', '${ex.name}', '${ex.muscleGroup}', this)">+</button>
-                    <div>
-                        <span class="tag">${ex.muscleGroup || 'Full Body'}</span>
-                        <h3 style="color: var(--pink); margin: 10px 0;">${ex.name}</h3>
-                        <p style="color: #666; font-size: 0.85rem;">${ex.description || ''}</p>
-                    </div>
-                </div>
-            `).join('');
-        } catch (e) {
-            container.innerHTML = "Database offline.";
-        }
+    async function openModal(id) {
+        selectedId = id;
+        const token = localStorage.getItem("token");
+        if(!token) return alert("Please login first!");
+
+        const res = await fetch(API + "/workouts", { headers: { "Authorization": "Bearer " + token }});
+        const sets = await res.json();
+        
+        if(!sets.length) return alert("Create a workout set first!");
+        
+        document.getElementById("workoutSelect").innerHTML = sets.map(s => `<option value="${s._id}">${s.title}</option>`).join('');
+        document.getElementById("modal").style.display = "flex";
     }
 
-    document.addEventListener('DOMContentLoaded', loadExercises);
+    function closeModal() { document.getElementById("modal").style.display = "none"; }
+
+    document.getElementById("confirmAdd").onclick = async () => {
+        const workoutId = document.getElementById("workoutSelect").value;
+        const token = localStorage.getItem("token");
+
+        // Твой бэкенд в Workout.js принимает только ID в массив exercises
+        const res = await fetch(`${API}/workouts/${workoutId}/exercises`, {
+            method: "PUT",
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": "Bearer " + token 
+            },
+            body: JSON.stringify({ exerciseId: selectedId })
+        });
+
+        if(res.ok) {
+            alert("Added successfully! 💗");
+            closeModal();
+        } else {
+            alert("Error adding exercise.");
+        }
+    };
+
+    loadEx();
 </script>
 </body>
 </html>
