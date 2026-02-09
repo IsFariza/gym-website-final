@@ -107,23 +107,25 @@ No frontend frameworks were used.
 
 ## Project Structure
 public/
-├── js/                  # JavaScript files
-│   ├── auth.js          # User authentication
-│   ├── index.js         # Main page script
-│   ├── profile.js       # Profile page script
-│   ├── exercises.js     # Exercises page script
-│   └── trainers.js      # Trainers page script
-├── admin.html           # Admin page
-├── contact.html         # Contact page
-├── exercises.html       # Exercises page
-├── index.html           # Home page
-├── login.html           # Login page
-├── prices.html          # Pricing page
-├── profile.html         # User profile page
-├── register.html        # Registration page
-├── trainers.html        # Trainers page
-├── workouts.html        # Workouts page
-└── styles.css           # Main CSS file
+├── js/                      # JavaScript files
+│   ├── auth.js               # User authentication
+│   ├── index.js              # Main page script
+│   ├── profile.js            # Profile page script
+│   ├── exercises.js          # Exercises page script
+│   └── trainers.js           # Trainers page script
+│
+├── admin.html                # Admin page
+├── contact.html              # Contact page
+├── exercises.html            # Exercises page
+├── index.html                # Home page
+├── login.html                # Login page
+├── prices.html               # Pricing page
+├── profile.html              # User profile page
+├── register.html             # Registration page
+├── trainers.html             # Trainers page
+├── workouts.html             # Workouts page
+│
+└── styles.css                # Main CSS file
 
 
 Folder and File Description
